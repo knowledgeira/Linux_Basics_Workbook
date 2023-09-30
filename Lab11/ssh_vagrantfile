@@ -1,0 +1,22 @@
+Vagrant.configure("2") do |config|
+  def create_vm(config, box_name, ip_address, hostname, vagrant_name)
+    config.vm.define vagrant_name do |node|
+      node.vm.box = "generic/#{box_name}"
+      node.vm.hostname = hostname
+      node.vm.network "private_network", ip: ip_address
+      node.vm.provider "virtualbox" do |vb|
+        vb.memory = 2048
+        vb.cpus = 2
+      end
+      node.vm.provision "shell", inline: <<-SHELL
+        sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+        sudo systemctl restart sshd
+      SHELL
+    end
+  end
+
+  ubuntu_box, fedora_box, local_machine, remote_server1, remote_server2 = "ubuntu2204", "fedora33", "Local_machine", "Remote_server1", "Remote_server2"
+  create_vm(config, ubuntu_box, "192.168.57.100", local_machine, "localsshMachine")
+  create_vm(config, ubuntu_box, "192.168.57.101", remote_server1, "Production_Server1")
+  create_vm(config, fedora_box, "192.168.57.102", remote_server2, "Production_Server2")
+end
