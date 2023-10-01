@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  ubuntu_box, fedora_box, local_machine, remote_server1, remote_server2 = "ubuntu2204", "fedora33", "Local_machine", "Remote_server1", "Remote_server2"
+  ubuntu_box, fedora_box, localmachine, remoteserver1, remoteserver2 = "ubuntu2204", "fedora33", "Local_machine", "Remote_server1", "Remote_server2"
   create_vm(config, ubuntu_box, "192.168.57.100", localmachine, "localsshMachine")
   create_vm(config, ubuntu_box, "192.168.57.101", remoteserver1, "Production_Server1")
   create_vm(config, fedora_box, "192.168.57.102", remoteserver2, "Production_Server2")
