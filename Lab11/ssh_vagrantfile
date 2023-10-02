@@ -1,4 +1,7 @@
 Vagrant.configure("2") do |config|
+  
+  config.ssh.insert_key = false
+
   def create_vm(config, box_name, ip_address, hostname, vagrant_name)
     config.vm.define vagrant_name do |node|
       node.vm.box = "generic/#{box_name}"
@@ -14,8 +17,10 @@ Vagrant.configure("2") do |config|
       SHELL
     end
   end
+  
   ubuntu_box, fedora_box, controller_hostname, target1_hostname, target2_hostname = "ubuntu2204", "fedora33", "Controller", "Production-Server1", "Production-Server2"
   create_vm(config, ubuntu_box, "192.168.57.100", controller_hostname, "JumpHost-Controller")
   create_vm(config, ubuntu_box, "192.168.57.101", target1_hostname, "TargetHost1")
   create_vm(config, fedora_box, "192.168.57.102", target2_hostname, "TargetHost2")
+
 end
